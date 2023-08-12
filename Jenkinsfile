@@ -3,7 +3,7 @@ pipeline {
         DOCKER_ID = "camillebre" // replace this with your docker-id
         DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
         NAMESPACE = "dev"
-        AWS_CREDENTIALS = credentials(aws-credentials)
+        AWS_CREDENTIALS = credentials('aws-credentials')
     }
     agent any // Jenkins will be able to select all available agents
 
