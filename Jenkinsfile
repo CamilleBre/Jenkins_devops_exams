@@ -43,10 +43,11 @@ pipeline {
         stage('Create namespace') {
             
             steps {
+                withAWS(credentials: 'aws-credential', region: 'eu-west-3') {
                 sh '''
-                rm -Rf ~/.aws
-                mkdir ~/.aws
-                cat $AWS_CREDENTIALS > ~/.aws/credentials
+                #rm -Rf ~/.aws
+                #mkdir ~/.aws
+                #cat $AWS_CREDENTIALS > ~/.aws/credentials
 
                 #rm -Rf ~/.kube 
                 #mkdir ~/.kube
@@ -66,6 +67,7 @@ pipeline {
                 
                 echo 'namespace created'
                 '''
+                } 
             }
 
         }
