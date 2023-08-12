@@ -41,26 +41,28 @@ pipeline {
 
         stage('Create namespace') {
             
-        steps {
-            sh '''
-            rm -Rf ~/.kube 
-            mkdir ~/.kube
-            cat $KUBE_CONFIG > ~/.kube/config
+            steps {
+                sh '''
+                rm -Rf ~/.kube 
+                mkdir ~/.kube
+                cat $KUBE_CONFIG > ~/.kube/config
+                    
+                #rm -Rf ~/.aws
+                #mkdir ~/.aws
+                #cat $CREDENTIAL > ~/.aws/credentials
+                #ls 
+                #cat ~/.kube/config
+                #cat ~/.aws/credentials
+                #kubectl get nodes
+                #kubectl apply -f  role.yaml
                 
-            #rm -Rf ~/.aws
-            #mkdir ~/.aws
-            #cat $CREDENTIAL > ~/.aws/credentials
-            #ls 
-            #cat ~/.kube/config
-            #cat ~/.aws/credentials
-            #kubectl get nodes
-            #kubectl apply -f  role.yaml
-            
-            kubectl create namespace $NAMESPACE
-            
-            echo 'namespace created'
-            '''
+                kubectl create namespace $NAMESPACE
+                
+                echo 'namespace created'
+                '''
+            }
+
         }
 
-}
+        
 }
