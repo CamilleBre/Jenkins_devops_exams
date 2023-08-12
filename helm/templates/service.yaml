@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm.fullname" . }}-movie-service
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.movie_service.service.type }}
+  ports:
+    - port: {{ .Values.movie_service.service.port }}
+      targetPort: {{ .Values.movie_service.service.targetPort }}
+      protocol: TCP
+  selector:
+    {{- include "helm.selectorLabels" . | nindent 4 }}
+    app: movie_service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm.fullname" . }}-cast-service
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.cast_service.service.type }}
+  ports:
+    - port: {{ .Values.cast_service.service.port }}
+      targetPort: {{ .Values.cast_service.service.targetPort }}
+      protocol: TCP
+  selector:
+    {{- include "helm.selectorLabels" . | nindent 4 }}
+    app: cast_service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm.fullname" . }}-nginx
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.nginx.service.type }}
+  ports:
+    - port: {{ .Values.nginx.service.port }}
+      targetPort: {{ .Values.nginx.service.targetPort }}
+      protocol: TCP
+  selector:
+    {{- include "helm.selectorLabels" . | nindent 4 }}
+    app: nginx
+
