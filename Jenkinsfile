@@ -3,7 +3,7 @@ pipeline {
         DOCKER_ID = "camillebre" // replace this with your docker-id
         DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
         NAMESPACE = "staging"
-        AWS_CREDENTIALS = credentials('aws-credentials')
+        #AWS_CREDENTIALS = credentials('aws-credentials')
     }
     agent any // Jenkins will be able to select all available agents
 
@@ -43,7 +43,7 @@ pipeline {
         stage('Create namespace') {
             
             steps {
-                withAWS(credentials: 'aws-credential', region: 'eu-west-3') {
+                withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube 
                 aws eks update-kubeconfig --name my-eks
@@ -60,7 +60,7 @@ pipeline {
         stage('Deploy with helm') {
             
             steps {
-                withAWS(credentials: 'aws-credential', region: 'eu-west-3') {
+                withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 helm install --set namespace=$NAMESPACE --set  docker_tag=$DOCKER_TAG helm-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config
                 
