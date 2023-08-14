@@ -24,3 +24,19 @@ spec:
   resources:
     requests:
       storage: {{ .Values.pvc.storage}}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.pvc.name }}-nginx
+  namespace : {{ .Values.namespace }}
+spec:
+  accessModes:
+    - {{ .Values.pvc.accessMode }}
+  storageClassName: {{ .Values.pvc.storageClassName}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.storage}}
+
+      

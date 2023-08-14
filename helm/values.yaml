@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 namespace : dev
+docker_tag : v.10.0
 
 movie_service:
   image : camillebre/movie_service
@@ -46,4 +47,4 @@ pvc:
   name : postgre-data
   accessMode: ReadWriteOnce
   storage: 10Gi
-  storageClassName: local-path
+  storageClassName: gp2

@@ -21,6 +21,7 @@ spec:
        volumeMounts:
        - name: {{ .Values.pvc.name }}-movie
          mountPath: /var/lib/postgresql/data
+         subPath: postgres
        env:
        - name: POSTGRES_USER
          valueFrom:
@@ -66,11 +67,12 @@ spec:
        volumeMounts:
        - name: {{ .Values.pvc.name }}-cast
          mountPath: /var/lib/postgresql/data
+         subPath: postgres
        env:
        - name: POSTGRES_USER
          valueFrom:
            secretKeyRef:
-             name: cat
+             name: cast
              key: postgres-user
        - name: POSTGRES_PASSWORD
          valueFrom:

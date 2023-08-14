@@ -13,8 +13,8 @@ pipeline {
                 script {
                 sh '''
                  docker rm -f jenkins
-                 docker build -t $DOCKER_ID/movie_service:$DOCKER_TAG ./movie-service
-                 docker build -t $DOCKER_ID/cast_service:$DOCKER_TAG ./cast-service
+                 docker build --platform=linux/amd64 -t $DOCKER_ID/movie_service:$DOCKER_TAG ./movie-service
+                 docker build --platform=linux/amd64 -t $DOCKER_ID/cast_service:$DOCKER_TAG ./cast-service
                  sleep 6
                 '''
                 }
@@ -45,27 +45,26 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credential', region: 'eu-west-3') {
                 sh '''
-                #rm -Rf ~/.aws
-                #mkdir ~/.aws
-                #cat $AWS_CREDENTIALS > ~/.aws/credentials
-
-                #rm -Rf ~/.kube 
-                #mkdir ~/.kube
-                #cat $KUBE_CONFIG > ~/.kube/config
-                aws eks update-kubeconfig --name my_eks
-                    
-                #rm -Rf ~/.aws
-                #mkdir ~/.aws
-                #cat $CREDENTIAL > ~/.aws/credentials
-                #ls 
-                #cat ~/.kube/config
-                #cat ~/.aws/credentials
-                #kubectl get nodes
-                #kubectl apply -f  role.yaml
+                rm -Rf ~/.kube 
+                aws eks update-kubeconfig --name my-eks
                 
                 kubectl create namespace $NAMESPACE
                 
                 echo 'namespace created'
+                '''
+                } 
+            }
+
+        }
+
+        stage('Deploy with helm') {
+            
+            steps {
+                withAWS(credentials: 'aws-credential', region: 'eu-west-3') {
+                sh '''
+                helm install --set namespace=$NAMESPACE --set  docker_tag=$DOCKER_TAG helm-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config
+                
+                echo 'Helm deployed'
                 '''
                 } 
             }
