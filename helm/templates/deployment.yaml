@@ -19,10 +19,10 @@ spec:
         - name: movie-service
           image: {{ .Values.movie_service.image }}:{{ .Values.docker_tag }}
           ports:
-            - containerPort: {{ .Values.movie_service.service.port }}
-            volumeMounts:
-            - name: volume-movie
-              mountPath: /app
+          - containerPort: {{ .Values.movie_service.service.port }}
+          volumeMounts:
+          - name: volume-movie
+            mountPath: /app
           env:
           - name: DATABASE_URI
             value: postgresql://movie_db_username:movie_db_password@movie_db/movie_db_dev
@@ -54,7 +54,7 @@ spec:
         - name: cast-service
           image: {{ .Values.cast_service.image }}:{{ .Values.docker_tag }}
           ports:
-            - containerPort: {{ .Values.cast_service.service.port }}
+          - containerPort: {{ .Values.cast_service.service.port }}
           volumeMounts:
           - name: volume-cast
             mountPath: /app
@@ -86,7 +86,7 @@ spec:
         - name: nginx
           image: {{ .Values.nginx.image }}
           ports:
-            - containerPort: {{ .Values.nginx.service.port }}
+          - containerPort: {{ .Values.nginx.service.port }}
           volumeMounts:
           - name: volume-nginx
             mountPath: /etc/nginx/conf.d
