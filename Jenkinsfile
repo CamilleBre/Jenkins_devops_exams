@@ -39,17 +39,11 @@ pipeline {
         }
 
         stage('Deploy with helm on dev') {
-            environment
-            {
-            KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
-            } 
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
-                mkdir ~/.kube
-                cat $KUBECONFIG > .kube/config                
-                ls ~/.kube
+                aws eks update-kubeconfig --name my-eks
                 helm install --set namespace=dev --set  docker_tag=$DOCKER_TAG dev-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
                 
                 echo 'Helm deployed on dev'
@@ -58,16 +52,11 @@ pipeline {
             }
         }
         stage('Deploy with helm on qa') {
-            environment
-            {
-            KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
-            } 
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
-                mkdir ~/.kube
-                cat $KUBECONFIG > .kube/config   
+                aws eks update-kubeconfig --name my-eks 
 
                 helm install --set namespace=qa --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
                 
@@ -77,17 +66,12 @@ pipeline {
             }
         }
 
-        stage('Deploy with helm on staging') {
-            environment
-            {
-            KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
-            }             
+        stage('Deploy with helm on staging') {    
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
-                mkdir ~/.kube
-                cat $KUBECONFIG > .kube/config 
+                aws eks update-kubeconfig --name my-eks 
 
                 helm install --set namespace=staging --set  docker_tag=$DOCKER_TAG staging-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
                 
@@ -98,10 +82,6 @@ pipeline {
 
         }
         stage('Deploy with helm on prod') {
-            environment
-            {
-            KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
-            } 
             when {
                 branch 'master'
             }
@@ -115,8 +95,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
-                mkdir ~/.kube
-                cat $KUBECONFIG > .kube/config 
+                aws eks update-kubeconfig --name my-eks
 
                 helm install --set namespace=prod --set  docker_tag=$DOCKER_TAG prod-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
                 
