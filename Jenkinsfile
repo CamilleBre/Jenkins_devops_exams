@@ -113,13 +113,14 @@ pipeline {
                 sh '''
                 rm -Rf ~/.kube
                 cat $KUBECONFIG > .kube/config 
-                
+
                 helm install --set namespace=prod --set  docker_tag=$DOCKER_TAG prod-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
                 
                 echo 'Helm deployed on prod'
                 '''
                 } 
             }
-    }   
+        }   
+    }
 }
 
