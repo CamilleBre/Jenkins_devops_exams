@@ -44,7 +44,7 @@ pipeline {
                 sh '''
                 rm -Rf ~/.kube
                 aws eks update-kubeconfig --name my-eks
-                helm install --set namespace=dev --set  docker_tag=$DOCKER_TAG dev-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
+                helm install --set  docker_tag=$DOCKER_TAG dev-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace dev --create-namespace
                 
                 echo 'Helm deployed on dev'
                 '''
@@ -58,7 +58,7 @@ pipeline {
                 rm -Rf ~/.kube
                 aws eks update-kubeconfig --name my-eks 
 
-                helm install --set namespace=qa --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
+                helm install --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace qa --create-namespace
                 
                 echo 'Helm deployed on qa'
                 '''
@@ -73,7 +73,7 @@ pipeline {
                 rm -Rf ~/.kube
                 aws eks update-kubeconfig --name my-eks 
 
-                helm install --set namespace=staging --set  docker_tag=$DOCKER_TAG staging-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
+                helm install --set  docker_tag=$DOCKER_TAG staging-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace staging --create-namespace
                 
                 echo 'Helm deployed on staging'
                 '''
@@ -97,7 +97,7 @@ pipeline {
                 rm -Rf ~/.kube
                 aws eks update-kubeconfig --name my-eks
 
-                helm install --set namespace=prod --set  docker_tag=$DOCKER_TAG prod-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
+                helm install --set  docker_tag=$DOCKER_TAG prod-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace prod --create-namespace
                 
                 echo 'Helm deployed on prod'
                 '''

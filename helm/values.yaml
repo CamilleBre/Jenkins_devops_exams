@@ -2,49 +2,48 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace : dev
-docker_tag : v.10.0
+docker_tag: v.10.0
 
 movie_service:
-  image : camillebre/movie_service
-  replicaCount : 1 
-  service :
-    type : ClusterIP
-    port : 8001
-    targetPort : 8000
+  image: camillebre/movie_service
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8001
+    targetPort: 8000
 
 cast_service:
-  image : camillebre/cast_service
-  replicaCount : 1 
-  service :
-    type : ClusterIP
-    port : 8002
-    targetPort : 8000
+  image: camillebre/cast_service
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8002
+    targetPort: 8000
 
 nginx:
-  image : nginx:latest
-  replicaCount : 1 
-  service :
-    type : ClusterIP
-    port : 8000
-    targetPort : 8000
+  image: nginx:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
 
 movie_db:
-  image : postgres:12.1-alpine
-  replicaCount : 1 
-  service :
-    type : ClusterIP
-    port : 5432
+  image: postgres:12.1-alpine
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 5432
 
 cast_db:
-  image : postgres:12.1-alpine
-  replicaCount : 1 
-  service :
-    type : ClusterIP
-    port : 5432
+  image: postgres:12.1-alpine
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 5432
 
 pvc:
-  name : postgre-data
+  name: postgre-data
   accessMode: ReadWriteOnce
   storage: 10Gi
   storageClassName: gp2
