@@ -58,7 +58,7 @@ pipeline {
                 rm -Rf ~/.kube
                 aws eks update-kubeconfig --name my-eks 
 
-                helm upagrade --install --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace qa --create-namespace
+                helm upgrade --install --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --namespace qa --create-namespace
                 
                 echo 'Helm deployed on qa'
                 '''
