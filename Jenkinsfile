@@ -47,6 +47,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
+                mkdir .kube
                 cat $KUBECONFIG > .kube/config                
 
                 helm install --set namespace=dev --set  docker_tag=$DOCKER_TAG dev-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
@@ -65,6 +66,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
+                mkdir .kube
                 cat $KUBECONFIG > .kube/config   
 
                 helm install --set namespace=qa --set  docker_tag=$DOCKER_TAG qa-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
@@ -84,6 +86,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
+                mkdir .kube
                 cat $KUBECONFIG > .kube/config 
 
                 helm install --set namespace=staging --set  docker_tag=$DOCKER_TAG staging-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
@@ -112,6 +115,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
                 sh '''
                 rm -Rf ~/.kube
+                mkdir .kube
                 cat $KUBECONFIG > .kube/config 
 
                 helm install --set namespace=prod --set  docker_tag=$DOCKER_TAG prod-chart ./helm --values=./helm/values.yaml --kubeconfig ~/.kube/config --create-namespace
