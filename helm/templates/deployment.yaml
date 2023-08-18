@@ -10,19 +10,19 @@ spec:
   selector:
     matchLabels:
       {{- include "helm.selectorLabels" . | nindent 6 }}
-  template:  
+  template:
     metadata:
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
-    spec:  
+    spec:
       containers:
         - name: movie-service
           image: {{ .Values.movie_service.image }}:{{ .Values.docker_tag }}
           ports:
             - containerPort: {{ .Values.movie_service.service.port }}
-          volumeMounts: 
-          - name: volume-movie
-            mountPath: /app
+            volumeMounts:
+            - name: volume-movie
+              mountPath: /app
           env:
           - name: DATABASE_URI
             value: postgresql://movie_db_username:movie_db_password@movie_db/movie_db_dev
@@ -45,17 +45,17 @@ spec:
   selector:
     matchLabels:
       {{- include "helm.selectorLabels" . | nindent 6 }}
-  template:  
+  template:
     metadata:
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
-    spec:  
+    spec:
       containers:
         - name: cast-service
           image: {{ .Values.cast_service.image }}:{{ .Values.docker_tag }}
           ports:
             - containerPort: {{ .Values.cast_service.service.port }}
-          volumeMounts: 
+          volumeMounts:
           - name: volume-cast
             mountPath: /app
           env:
@@ -77,17 +77,17 @@ spec:
   selector:
     matchLabels:
       {{- include "helm.selectorLabels" . | nindent 6 }}
-  template:  
+  template:
     metadata:
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
-    spec:  
+    spec:
       containers:
         - name: nginx
           image: {{ .Values.nginx.image }}
           ports:
             - containerPort: {{ .Values.nginx.service.port }}
-          volumeMounts: 
+          volumeMounts:
           - name: volume-nginx
             mountPath: /etc/nginx/conf.d
       volumes:
